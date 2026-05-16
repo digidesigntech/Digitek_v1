@@ -1,0 +1,429 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --primary: 270 95% 75%;
+    --primary-foreground: 0 0% 0%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 270 95% 75%;
+    --accent-foreground: 0 0% 0%;
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 100% / 0.1;
+    --ring: 270 95% 75%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-white/10;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-black text-white antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400;
+  }
+
+  .glass {
+    @apply bg-white/[0.03] border border-white/10 backdrop-blur-md;
+  }
+
+  .glass-hover {
+    @apply transition-all duration-300 hover:bg-white/[0.06] hover:border-purple-400/40;
+  }
+
+  .purple-glow {
+    box-shadow: 0 0 60px -15px rgba(191, 128, 255, 0.45);
+  }
+
+  .section-pad {
+    @apply py-20 md:py-28;
+  }
+
+  .loader {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: rgb(191, 128, 255);
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Fanned glass cards (Uiverse-style by codebykay101, adapted)
+ * Used by the "What Makes Us Different" panel on the homepage.
+ * Cards overlap and tilt in their resting state; on row hover, they
+ * uncurl and spread out into a flat row.
+ * ------------------------------------------------------------------------- */
+.fanned-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 220px;
+  padding: 12px 0;
+}
+
+.fanned-row .fanned-card {
+  position: relative;
+  width: 140px;
+  height: 200px;
+  background: linear-gradient(rgba(255, 255, 255, 0.13), transparent);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s ease, margin 0.5s ease,
+    box-shadow 0.5s ease, border-color 0.5s ease;
+  border-radius: 14px;
+  margin: 0 -34px;
+  backdrop-filter: blur(10px);
+  transform: rotate(calc(var(--r) * 1deg));
+  will-change: transform, margin;
+}
+
+@media (min-width: 768px) {
+  .fanned-row .fanned-card {
+    width: 180px;
+    height: 220px;
+    margin: 0 -45px;
+  }
+}
+
+.fanned-row:hover .fanned-card {
+  transform: rotate(0deg);
+  margin: 0 6px;
+  border-color: rgba(191, 128, 255, 0.35);
+  box-shadow: 0 30px 40px -10px rgba(191, 128, 255, 0.25);
+}
+
+@media (min-width: 768px) {
+  .fanned-row:hover .fanned-card {
+    margin: 0 10px;
+  }
+}
+
+.fanned-row .fanned-card::before {
+  content: attr(data-text);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 56px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  border-radius: 0 0 14px 14px;
+}
+
+.fanned-row .fanned-card .fc-icon {
+  color: rgb(216, 180, 254);
+  display: flex;
+  margin-bottom: 56px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Wave cards (Uiverse-style ".e-card" by MikeAndrewDesigner, adapted)
+ * Used by the Solutions page. Each card uses three slow-rotating gradient
+ * "waves" stacked behind a dark scrim. On hover the wave animation speeds
+ * up, giving each card a living-aurora feel. Card dimensions are inherited
+ * from the parent grid so the existing 2-column layout is preserved.
+ * ------------------------------------------------------------------------- */
+.wave-card {
+  position: relative;
+  background: rgb(10, 10, 12);
+  box-shadow: 0 8px 28px -9px rgba(0, 0, 0, 0.45);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  isolation: isolate;
+}
+
+.wave-card .wave {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0;
+  margin-left: -50%;
+  margin-top: -70%;
+  background: linear-gradient(744deg, #af40ff, #5b42f3 60%, #00ddeb);
+  border-radius: 40%;
+  opacity: 0.55;
+  animation: wave-rot 55s infinite linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wave-card .wave:nth-child(2) {
+  top: 30%;
+  opacity: 0.45;
+  animation-duration: 50s;
+}
+
+.wave-card .wave:nth-child(3) {
+  top: 55%;
+  opacity: 0.4;
+  animation-duration: 45s;
+}
+
+.wave-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      120% 80% at 50% 10%,
+      rgba(0, 0, 0, 0.25) 0%,
+      rgba(0, 0, 0, 0.55) 60%,
+      rgba(0, 0, 0, 0.72) 100%
+    );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wave-card:hover .wave {
+  animation-duration: 4s;
+}
+
+.wave-card:hover .wave:nth-child(2) {
+  animation-duration: 5s;
+}
+
+.wave-card:hover .wave:nth-child(3) {
+  animation-duration: 6s;
+}
+
+.wave-card .wave-content {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes wave-rot {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-card .wave,
+  .wave-card:hover .wave {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Shine text (Uiverse-style by author "zezzz", adapted to standard syntax)
+ * Used by the Partner Ecosystem pills on the Solutions page. The base text
+ * sits at 30% white; a narrow 50px-wide white gleam sweeps left→right across
+ * the glyph once every 5 seconds.
+ * ------------------------------------------------------------------------- */
+.shine {
+  font-size: 1.5em;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.3);
+  background-image: linear-gradient(
+    -40deg,
+    transparent 0%,
+    transparent 40%,
+    #fff 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 50px 100%;
+  background-repeat: no-repeat;
+  background-position: -200px 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine-sweep 5s infinite linear;
+}
+
+@keyframes shine-sweep {
+  0%,
+  10% {
+    background-position: -200px 0;
+  }
+  20% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine {
+    animation: none;
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Holographic card (Uiverse-style ".card-5" by Thomas-Cabrit, adapted)
+ * Used by the "One Team. Every Capability." strip on the homepage. Three
+ * stacked text layers at different Z depths produce a holographic feel;
+ * the holder wobbles slowly on X/Y. Font-size is scaled down from the
+ * original 108px so multi-letter words ("Development", "Deployment") fit
+ * inside each grid cell.
+ * ------------------------------------------------------------------------- */
+.card-5 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  margin: 8px 0;
+}
+
+.card-5__holo {
+  position: relative;
+  width: 100%;
+  max-width: 180px;
+  aspect-ratio: 1 / 1;
+  border-radius: 26px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: card5-wobble 6.2s ease-in-out infinite;
+}
+
+@keyframes card5-wobble {
+  0% {
+    transform: rotateX(16deg) rotateY(-18deg);
+  }
+  50% {
+    transform: rotateX(18deg) rotateY(18deg);
+  }
+  100% {
+    transform: rotateX(16deg) rotateY(-18deg);
+  }
+}
+
+.card-5__layer {
+  position: absolute;
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: -1px;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-text-stroke: 1px rgba(191, 128, 255, 0.7);
+  background: linear-gradient(
+    90deg,
+    rgba(191, 128, 255, 0.2) 0%,
+    rgba(191, 128, 255, 0.95) 35%,
+    rgba(216, 180, 254, 0.85) 60%,
+    rgba(191, 128, 255, 0.25) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.55));
+  opacity: 0.95;
+  transform-style: preserve-3d;
+}
+
+.card-5__layer--back {
+  opacity: 0.18;
+  filter: blur(1px);
+  transform: translateZ(-70px);
+  -webkit-text-stroke: 1px rgba(191, 128, 255, 0.45);
+}
+
+.card-5__layer--mid {
+  opacity: 0.42;
+  filter: blur(0.4px);
+  transform: translateZ(-34px);
+  -webkit-text-stroke: 1px rgba(191, 128, 255, 0.55);
+}
+
+.card-5__layer--front {
+  opacity: 0.98;
+  transform: translateZ(0px);
+  -webkit-text-stroke: 1px rgba(191, 128, 255, 0.85);
+}
+
+.card-5__holo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(191, 128, 255, 0.18),
+    rgba(0, 0, 0, 0) 62%
+  );
+  filter: blur(8px);
+  opacity: 0.9;
+  transform: translateZ(-80px);
+}
+
+.card-5__holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  border: 1px solid rgba(191, 128, 255, 0.2);
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.01) 45%,
+    rgba(0, 0, 0, 0)
+  );
+  opacity: 0.55;
+  transform: translateZ(-45px);
+}
+
+@media (max-width: 1024px) {
+  .card-5__layer {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-5__holo {
+    border-radius: 24px;
+  }
+  .card-5__layer {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-5__holo {
+    animation: none !important;
+  }
+}
