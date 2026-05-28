@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { MascotAssistantLoader } from "@/components/ui/mascot-assistant-loader";
+import { DomCleanupPatch } from "@/components/safety/dom-cleanup-patch";
+import { RouteGsapGuard } from "@/components/safety/route-gsap-guard";
 import { siteConfig } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -31,10 +34,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} dark`}>
-      <body className="min-h-screen bg-black text-white font-sans">
+      <head>
+        {/* Open the TCP+TLS connection to the Spline CDN as early as
+            possible. Spline scenes are 2-5 MB and the runtime can't
+            even start fetching until after JS parses — preconnect shaves
+            the DNS + TLS handshake (~200-500ms) off the perceived load. */}
+        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://prod.spline.design" />
+        <link rel="preconnect" href="https://unpkg.com" crossOrigin="anonymous" />
+      </head>
+      <body className="min-h-screen bg-black text-white font-sans overflow-x-hidden">
+        <DomCleanupPatch />
+        <RouteGsapGuard />
         <Navbar />
-        <main className="relative">{children}</main>
+        <main className="relative w-full overflow-x-hidden">{children}</main>
         <Footer />
+        <MascotAssistantLoader />
       </body>
     </html>
   );

@@ -1,0 +1,293 @@
+================================================================
+BAPTIST DIGITEK — WEBSITE PRESENTATION
+Baptist Digitek Private Limited
+Chennai, Tamil Nadu, India
+================================================================
+
+
+1. WHAT IS THE WEBSITE FOR?
+----------------------------------------------------------------
+Purpose: Corporate brand + marketing + lead-generation site for
+Baptist Digitek Private Limited, a Chennai-based website
+development and IT solutions company.
+
+The site is designed to:
+  - Establish brand authority in the Chennai / Tamil Nadu market.
+  - Showcase services (web, software, mobile apps, hosting,
+    branding, digital marketing, corporate training).
+  - Generate qualified leads via contact form, WhatsApp, and
+    direct phone CTAs.
+  - Highlight portfolio work to build trust with prospects.
+  - Serve as a discovery channel for the "Digi Design" sub-brand
+    (with its own portfolio, packages, and client area).
+
+
+2. WHAT DOES IT INCLUDE?
+----------------------------------------------------------------
+Key pages and features:
+
+  Core pages
+    - Home (/)                          Hero with 3D scene, CTAs
+    - About (/about)                    Company story, team, values
+    - Services (/services)              Full service catalogue
+    - Solutions (/solutions)            Industry-specific offerings
+    - Portfolio (/portfolio)            Client work showcase
+    - Contact (/contact)                Form, map, phone, WhatsApp
+
+  Digi Design sub-brand
+    - Digi Design landing (/digi-design)
+    - Digi Design Portfolio (/digi-design-portfolio)
+    - Welcome (/digi-design-portfolio/welcome)
+    - Packages (/digi-design-portfolio/packages)
+    - Client Login (/digi-design-portfolio/login)
+    - Client Dashboard (/digi-design-portfolio/dashboard)
+
+  Training
+    - Corporate Training (/training/corporate)
+
+  Specialty
+    - Baptist Digitek Portfolio (/baptist-digitek-portfolio)
+
+  Features
+    - Animated 3D hero (Spline + Three.js)
+    - Smooth GSAP / Framer Motion page transitions
+    - Card stacks, particle field, image-cursor trail effects
+    - Mascot assistant loader
+    - Fully responsive navbar with mega-menu
+    - WhatsApp click-to-chat (+91 78458 34708)
+    - Contact form for lead capture
+    - SEO-optimised metadata on every route
+
+
+3. WHAT TECH STACK WAS USED?
+----------------------------------------------------------------
+Framework & Language
+  - Next.js 14.2.35 (App Router)
+  - React 18.3.1
+  - TypeScript 5.5
+
+Styling & UI
+  - Tailwind CSS 3.4
+  - tailwindcss-animate
+  - class-variance-authority + clsx + tailwind-merge
+  - lucide-react (icons)
+  - Inter font (via next/font/google)
+
+Animation & 3D
+  - Framer Motion 11
+  - GSAP 3.15
+  - Three.js 0.184
+  - @react-three/fiber + @react-three/drei
+  - @splinetool/react-spline + @splinetool/runtime
+
+Tooling
+  - PostCSS + Autoprefixer
+  - Next.js built-in image optimisation
+  - Built-in TypeScript checking and ESLint (next lint)
+
+Hosting & Domain (recommended / current direction)
+  - Hosting: Vercel (native Next.js platform — Fluid Compute,
+    automatic CDN, edge caching, preview URLs per branch)
+  - Domain: baptistdigitek.com
+  - Email / DNS: managed via domain registrar
+  - Source control: Git / GitHub
+
+
+4. HOW DOES IT LOOK ON MOBILE?
+----------------------------------------------------------------
+Fully responsive, mobile-first design.
+
+  - Tailwind responsive breakpoints (sm / md / lg / xl) used
+    across every component.
+  - Navbar collapses to a hamburger menu on small screens.
+  - Hero, card stacks, and grids reflow to single-column layouts
+    on phones.
+  - Touch-friendly tap targets (buttons sized >= 44px).
+  - Horizontal overflow guarded globally
+    (overflow-x-hidden on body and main).
+  - 3D / Spline scenes degrade gracefully on lower-power
+    devices; mascot loader provides a smooth perceived-load
+    experience.
+  - Tested across iOS Safari, Android Chrome, and desktop
+    Chrome / Edge / Firefox.
+
+
+5. HOW FAST DOES IT LOAD?
+----------------------------------------------------------------
+Performance optimisations in place:
+
+  - Next.js App Router with React Server Components — only
+    interactive components ship JavaScript to the client.
+  - Automatic code splitting per route.
+  - next/font for self-hosted Inter (no external font request,
+    zero layout shift).
+  - next/image for responsive, lazy-loaded, AVIF/WebP images.
+  - Preconnect + DNS-prefetch hints to the Spline CDN to shave
+    ~200-500ms off heavy 3D scene loads.
+  - Heavy 3D / animation libraries are dynamically imported
+    only where needed.
+  - Tailwind's JIT compiler keeps CSS small (purges unused
+    classes at build time).
+  - Static pre-rendering for marketing pages → instant
+    first paint from CDN edge.
+
+Typical target: Lighthouse Performance 85+ on mobile,
+90+ on desktop. First Contentful Paint under 1.5s on 4G.
+
+
+6. HOW DO WE GET FOUND ON GOOGLE? (SEO)
+----------------------------------------------------------------
+On-page SEO baked into the codebase:
+
+  - Per-page Next.js metadata (title + description) with
+    Chennai / Tamil Nadu keyword targeting.
+  - metadataBase set to https://baptistdigitek.com for proper
+    canonical URLs.
+  - Semantic HTML structure (proper h1 / h2 hierarchy, alt
+    text on images, descriptive link anchors).
+  - Keyword set targets local intent:
+      website development company in Chennai
+      IT solutions Tamil Nadu
+      web design company Chennai
+      software development company Chromepet
+      digital marketing agency Chennai
+  - Mobile-friendly + fast load = Core Web Vitals friendly.
+  - Clean URL structure (/about, /services, /portfolio, etc.).
+  - Open Graph / Twitter card metadata for social sharing.
+
+Off-page / ongoing recommendations:
+  - Google Business Profile (Chromepet, Chennai listing).
+  - Submit XML sitemap + robots.txt to Google Search Console.
+  - Local citations and backlinks from Tamil Nadu directories.
+  - Regular blog / case study content for long-tail keywords.
+
+
+7. HOW IS IT KEPT SECURE?
+----------------------------------------------------------------
+  - HTTPS / SSL: automatic SSL certificate via the hosting
+    provider (Vercel auto-renews Let's Encrypt certs).
+  - HTTP -> HTTPS redirect enforced at the platform level.
+  - No raw database on the marketing site — reduced attack
+    surface.
+  - All third-party scripts loaded from trusted CDNs over HTTPS.
+  - Form submissions can be protected with rate-limiting and
+    bot detection (Vercel BotID / hCaptcha if needed).
+  - Dependencies kept current; npm audit / Dependabot alerts
+    monitored.
+  - Source code in private Git repository with branch
+    protection and code review.
+  - Backups: Git history is the source of truth; the host
+    keeps every deployment as an immutable snapshot — instant
+    rollback to any previous version.
+  - Environment secrets stored in the platform's encrypted
+    env-var store, never committed to source.
+
+
+8. HOW DO WE UPDATE CONTENT?
+----------------------------------------------------------------
+Current model (developer-managed):
+  - Content lives in the codebase (React / TSX components).
+  - Updates are made via Git commits and deployed automatically
+    on push (continuous deployment via the hosting provider).
+  - Baptist Digitek's development team handles edits, with a
+    clear change-request workflow for the client.
+
+Optional future model (client self-service):
+  - Plug a headless CMS into the existing Next.js site:
+      - Sanity, Contentful, Strapi, or Payload CMS.
+  - Marketing team edits text / images / blog posts in a
+    web dashboard; the site rebuilds automatically.
+  - Keeps the performance and security benefits of a static /
+    server-rendered site while giving non-developers an easy
+    update path.
+
+
+9. WHAT DOES IT COST?
+----------------------------------------------------------------
+Indicative annual operating costs (INR, approximate):
+
+  Domain (baptistdigitek.com)        Rs.  900  -  1,500 / year
+  Hosting (Vercel Hobby/Pro)         Rs.    0  - 20,000 / year
+    - Hobby tier: free for personal/small traffic.
+    - Pro tier: ~USD 20/month/seat for production SLAs.
+  SSL certificate                    Included free (auto).
+  Business email (Google Workspace)  Rs. 2,500  -  6,000 / year
+  CMS (if added later)
+    - Open-source self-hosted          Rs.     0 + hosting
+    - Sanity / Contentful free tier    Rs.     0
+    - Paid CMS plans                   Rs. 8,000 - 50,000 / year
+  Maintenance retainer (Baptist Digitek)
+    - Bug fixes, dependency updates,
+      small content edits, monitoring   Quoted per scope
+
+Total typical run-rate for a small business marketing site:
+  Rs. 3,500 to Rs. 30,000 per year + optional maintenance retainer.
+
+
+10. WHAT'S NEXT? (FUTURE IMPROVEMENTS)
+----------------------------------------------------------------
+Phase 2 roadmap suggestions:
+
+  Content & SEO
+    - Launch a blog / insights section for long-tail SEO.
+    - Add case studies with measurable client outcomes.
+    - Build a Tamil-language version for local reach.
+    - Schema.org structured data (LocalBusiness, Service,
+      Article) for richer Google results.
+
+  Lead generation
+    - Add live chat (WhatsApp Business API / Intercom).
+    - Newsletter signup + email nurture flow.
+    - Downloadable lead magnets (e.g. "Website checklist PDF").
+    - A/B test hero CTAs for conversion lift.
+
+  Client experience
+    - Flesh out the Digi Design client dashboard (project
+      status, invoices, file delivery).
+    - Self-service quote / estimate calculator.
+    - Booking widget for free consultations.
+
+  Tech & performance
+    - Integrate a headless CMS for self-service editing.
+    - Add analytics + heatmaps (Vercel Analytics + Plausible
+      or PostHog).
+    - Move to Next.js 16 with Cache Components for even
+      faster loads.
+    - AI-powered FAQ / lead-qualifier chatbot via the
+      Vercel AI Gateway.
+
+  Brand & growth
+    - Video showreel on the hero.
+    - Client testimonials carousel with photos.
+    - Awards / certifications strip.
+    - Careers page once hiring resumes.
+
+
+================================================================
+TECH STACK SUMMARY
+================================================================
+
+Layer            Choice
+---------------  --------------------------------------------
+Framework        Next.js 14.2.35 (App Router)
+Language         TypeScript 5.5
+UI library       React 18.3.1
+Styling          Tailwind CSS 3.4 + tailwindcss-animate
+Class utilities  clsx, tailwind-merge, class-variance-authority
+Icons            lucide-react
+Font             Inter (next/font/google, self-hosted)
+Animation        Framer Motion 11, GSAP 3.15
+3D graphics      Three.js 0.184, @react-three/fiber,
+                 @react-three/drei, Spline (react-spline + runtime)
+Images           next/image (AVIF / WebP, lazy-loaded)
+Build tools      PostCSS, Autoprefixer
+Linting          next lint (ESLint)
+Hosting          Vercel (recommended) — Fluid Compute,
+                 global CDN, automatic SSL, preview deploys
+Domain           baptistdigitek.com
+Source control   Git / GitHub
+Deployment       Continuous deployment on push to main
+
+================================================================
+END OF PRESENTATION
+================================================================

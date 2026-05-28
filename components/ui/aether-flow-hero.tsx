@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { SplineScene } from "@/components/ui/spline-scene";
+import { StarLink } from "@/components/ui/star-button";
 
 type AetherFlowHeroProps = {
   badge?: string;
@@ -15,6 +16,8 @@ type AetherFlowHeroProps = {
   secondaryLabel?: string;
   secondaryHref?: string;
   splineScene?: string;
+  robotAnchorRef?: React.Ref<HTMLDivElement>;
+  hideRobot?: boolean;
 };
 
 const DEFAULT_SCENE =
@@ -29,6 +32,8 @@ const AetherFlowHero: React.FC<AetherFlowHeroProps> = ({
   secondaryLabel = "See Our Work",
   secondaryHref = "/portfolio",
   splineScene = DEFAULT_SCENE,
+  robotAnchorRef,
+  hideRobot = false,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -108,7 +113,11 @@ const AetherFlowHero: React.FC<AetherFlowHeroProps> = ({
 
     const init = () => {
       particles = [];
-      const numberOfParticles = (canvas.height * canvas.width) / 11000;
+      // Density tuned for ~120 particles at 1080p — the O(n²) line-connect
+      // pass dominates the per-frame cost, so dropping particle count is
+      // the cheapest way to keep the hero canvas at 60fps without losing
+      // the visual.
+      const numberOfParticles = (canvas.height * canvas.width) / 18000;
       for (let i = 0; i < numberOfParticles; i++) {
         const size = Math.random() * 1.8 + 0.8;
         const x =
@@ -163,8 +172,10 @@ const AetherFlowHero: React.FC<AetherFlowHeroProps> = ({
       }
     };
 
+    let paused = false;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      if (paused) return;
       ctx.fillStyle = "black";
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
@@ -173,6 +184,11 @@ const AetherFlowHero: React.FC<AetherFlowHeroProps> = ({
       }
       connect();
     };
+
+    const handleVisibility = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
 
     const handleMouseMove = (event: MouseEvent) => {
       mouse.x = event.clientX;
@@ -194,6 +210,7 @@ const AetherFlowHero: React.FC<AetherFlowHeroProps> = ({
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseout", handleMouseOut);
+      document.removeEventListener("visibilitychange", handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -260,32 +277,29 @@ const AetherFlowHero: React.FC<AetherFlowHeroProps> = ({
             animate="visible"
             className="flex items-center gap-3 flex-wrap"
           >
-            <Link
-              href={ctaHref}
-              className="px-7 py-3.5 bg-white text-black font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-300 flex items-center gap-2"
-            >
-              {ctaLabel}
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-            <Link
-              href={secondaryHref}
-              className="px-7 py-3.5 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition-colors duration-300 flex items-center gap-2 backdrop-blur-sm"
-            >
-              {secondaryLabel}
-            </Link>
+            <StarLink href={ctaHref}>{ctaLabel}</StarLink>
+            <span className="glow-btn-wrap">
+              <Link href={secondaryHref} className="glow-btn">
+                {secondaryLabel}
+              </Link>
+            </span>
           </motion.div>
         </div>
 
         <motion.div
+          ref={robotAnchorRef}
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 1.2, ease: "easeOut" }}
           className="relative h-[420px] sm:h-[520px] lg:h-[640px] w-full"
+          aria-hidden={hideRobot || undefined}
         >
-          <SplineScene
-            scene={splineScene}
-            className="absolute inset-0 w-full h-full"
-          />
+          {!hideRobot && (
+            <SplineScene
+              scene={splineScene}
+              className="absolute inset-0 w-full h-full"
+            />
+          )}
         </motion.div>
       </div>
     </section>

@@ -90,7 +90,7 @@ export function ImageCursorTrail({
         <img
           key={index}
           className={cn(
-            "opacity:0 data-[status='active']:ease-out-expo absolute -translate-x-[50%] -translate-y-[50%] scale-0 rounded-3xl object-cover transition-transform duration-300 data-[status='active']:scale-100 data-[status='active']:opacity-100 data-[status='active']:duration-500",
+            "opacity:0 data-[status='active']:ease-out-expo absolute -translate-x-[50%] -translate-y-[50%] scale-0 rounded-2xl object-contain bg-white/[0.03] backdrop-blur-sm p-2 transition-transform duration-300 data-[status='active']:scale-100 data-[status='active']:opacity-100 data-[status='active']:duration-500",
             imgClass
           )}
           data-index={index}

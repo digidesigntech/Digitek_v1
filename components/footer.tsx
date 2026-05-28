@@ -18,7 +18,7 @@ export function Footer() {
             />
           </Link>
           <p className="text-sm text-gray-400 max-w-xs">
-            A Chennai-headquartered digital company building websites, software,
+            A Chennai-based digital company building websites, software,
             mobile apps and brand experiences for businesses across Tamil Nadu
             and beyond.
           </p>
@@ -55,10 +55,10 @@ export function Footer() {
             <li className="flex items-start gap-2">
               <Mail className="h-4 w-4 mt-0.5 text-purple-300 flex-shrink-0" />
               <a
-                href={`mailto:${siteConfig.contact.salesEmail}`}
+                href={`mailto:${siteConfig.contact.supportEmail}`}
                 className="hover:text-white transition-colors"
               >
-                {siteConfig.contact.salesEmail}
+                {siteConfig.contact.supportEmail}
               </a>
             </li>
           </ul>
@@ -66,7 +66,7 @@ export function Footer() {
 
         <div>
           <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-300">
-            Offices
+            Office
           </h4>
           <ul className="space-y-4 text-sm text-gray-400">
             <li className="flex items-start gap-2">
@@ -76,20 +76,13 @@ export function Footer() {
                 {siteConfig.offices.chennai.address}
               </span>
             </li>
-            <li className="flex items-start gap-2">
-              <MapPin className="h-4 w-4 mt-0.5 text-purple-300 flex-shrink-0" />
-              <span>
-                <span className="block text-gray-200 font-medium">Tanjore Branch</span>
-                {siteConfig.offices.tanjore.address}
-              </span>
-            </li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-500">
           <span>© {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.</span>
-          <span>Chennai · Chromepet · Tanjore · Tamil Nadu, India</span>
+          <span>Chennai · Chromepet · Tamil Nadu, India</span>
         </div>
       </div>
     </footer>

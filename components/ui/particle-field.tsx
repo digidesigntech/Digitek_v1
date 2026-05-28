@@ -128,13 +128,20 @@ const ParticleField: React.FC<ParticleFieldProps> = ({
       }
     };
 
+    let paused = false;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      if (paused) return;
       ctx.fillStyle = "black";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       for (const p of particles) p.update();
       connect();
     };
+
+    const handleVisibility = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -154,6 +161,7 @@ const ParticleField: React.FC<ParticleFieldProps> = ({
       ro.disconnect();
       wrapper.removeEventListener("mousemove", onMove);
       wrapper.removeEventListener("mouseleave", onOut);
+      document.removeEventListener("visibilitychange", handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
   }, [density, particleColor, lineColor]);

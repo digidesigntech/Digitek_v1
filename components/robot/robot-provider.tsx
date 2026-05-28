@@ -14,10 +14,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
-import { ArrowRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import { SplineScene } from "@/components/ui/spline-scene";
 import { useRobotBehavior } from "@/lib/use-robot-behavior";
 import { cn } from "@/lib/utils";
+import { StarLink } from "@/components/ui/star-button";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(Flip);
@@ -468,14 +469,9 @@ export function RobotProvider({ children }: { children: React.ReactNode }) {
               Pick the shortest path to something useful.
             </p>
             <div className="flex flex-wrap gap-3 justify-center mt-2">
-              <Link
-                href="/contact"
-                onClick={toggleExpand}
-                className="inline-flex items-center gap-2 rounded-lg bg-white text-black px-5 py-2.5 text-sm font-semibold hover:bg-gray-200 transition-colors"
-              >
+              <StarLink href="/contact" onClick={toggleExpand}>
                 Start a Project
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              </StarLink>
               <Link
                 href="/portfolio"
                 onClick={toggleExpand}

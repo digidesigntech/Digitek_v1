@@ -6,7 +6,6 @@ import {
   MessageCircle,
   Clock,
   Instagram,
-  Linkedin,
   Facebook,
   Youtube,
 } from "lucide-react";
@@ -18,15 +17,14 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact Baptist Digitek | Web & IT Company in Chromepet, Chennai",
   description:
-    "Reach Baptist Digitek Private Limited at our Chromepet, Chennai head office or Tanjore branch. Call, WhatsApp or email us for web design, software and digital marketing enquiries.",
+    "Reach Baptist Digitek Private Limited at our Chromepet, Chennai head office. Call, WhatsApp or email us for web design, software and digital marketing enquiries.",
 };
 
 const socials = [
   { icon: MessageCircle, label: "WhatsApp", href: "https://wa.me/917845834708" },
-  { icon: Instagram, label: "Instagram", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Facebook, label: "Facebook", href: "#" },
-  { icon: Youtube, label: "YouTube", href: "#" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/digi_designs_tek/" },
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/share/1P35WzyYkv" },
+  { icon: Youtube, label: "YouTube", href: "https://www.youtube.com/@AmuthanLeadership" },
 ];
 
 export default function ContactPage() {
@@ -39,7 +37,7 @@ export default function ContactPage() {
       />
 
       <Section>
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-1 gap-6 max-w-3xl mx-auto">
           <div className="glass rounded-2xl p-7 md:p-8">
             <div className="h-11 w-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4">
               <MapPin className="h-5 w-5 text-purple-300" />
@@ -56,21 +54,6 @@ export default function ContactPage() {
             >
               {siteConfig.offices.chennai.phone}
             </a>
-          </div>
-
-          <div className="glass rounded-2xl p-7 md:p-8">
-            <div className="h-11 w-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4">
-              <MapPin className="h-5 w-5 text-purple-300" />
-            </div>
-            <h3 className="text-lg font-semibold mb-1 text-white">
-              {siteConfig.offices.tanjore.label}
-            </h3>
-            <p className="text-gray-400 leading-relaxed mb-3">
-              {siteConfig.offices.tanjore.address}
-            </p>
-            <span className="text-purple-300 text-sm">
-              {siteConfig.offices.tanjore.phone}
-            </span>
           </div>
         </div>
 

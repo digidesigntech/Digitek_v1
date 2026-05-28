@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, type FormEvent, type FocusEvent } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { useRobot } from "@/components/robot/robot-provider";
 import { PaperPlane } from "@/components/ui/paper-plane";
+import { StarButton } from "@/components/ui/star-button";
 
 const services = [
   "Website",
@@ -53,6 +54,7 @@ const FIELD_REACTIONS: Record<
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [planeTrigger, setPlaneTrigger] = useState(0);
   const { setPose, setBubble } = useRobot();
 
@@ -70,41 +72,55 @@ export function ContactForm() {
     setPose({ rotateY: 0, rotateX: 0, scale: 1 }, 0.9);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     setPose({ rotateX: -10, scale: 1.1 }, 0.5);
     setBubble("Sending you off…", 2000);
     setPlaneTrigger((n) => n + 1); // launch the paper plane
 
     const form = e.currentTarget;
     const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      business: String(data.get("business") ?? ""),
+      email: String(data.get("email") ?? ""),
+      phone: String(data.get("phone") ?? ""),
+      service: String(data.get("service") ?? ""),
+      source: String(data.get("source") ?? ""),
+      description: String(data.get("description") ?? ""),
+    };
 
-    const subject = encodeURIComponent(
-      `Project Enquiry: ${data.get("service") ?? "General"}`
-    );
-    const lines = [
-      `Name: ${data.get("name")}`,
-      `Business: ${data.get("business")}`,
-      `Email: ${data.get("email")}`,
-      `Phone: ${data.get("phone")}`,
-      `Service: ${data.get("service")}`,
-      `Heard via: ${data.get("source")}`,
-      "",
-      "Project Description:",
-      `${data.get("description")}`,
-    ].join("\n");
-    const body = encodeURIComponent(lines);
-
-    window.location.href = `mailto:sales@baptistdigitek.com?subject=${subject}&body=${body}`;
-
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        detail?: string;
+      };
+      if (!res.ok) {
+        const composed = [json.error, json.detail].filter(Boolean).join(" — ");
+        throw new Error(
+          composed || `Request failed with status ${res.status}.`
+        );
+      }
       setSubmitted(true);
       setPose({ scale: 1.15, rotateX: 4 }, 0.6);
       setBubble("Thanks! We'll reply within a working day. 🎉", 6000);
       form.reset();
-    }, 800);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setError(message);
+      setPose({ rotateX: 0, scale: 1 }, 0.6);
+      setBubble("Hmm, that didn't send. Try once more?", 4000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -113,10 +129,10 @@ export function ContactForm() {
         <PaperPlane trigger={planeTrigger} />
         <div className="glass rounded-2xl p-8 sm:p-10 text-center">
           <CheckCircle2 className="h-10 w-10 text-purple-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Email draft opened</h3>
+          <h3 className="text-xl font-semibold mb-2">Enquiry sent</h3>
           <p className="text-gray-400">
-            Your email client should have opened with the enquiry pre-filled.
-            We respond to every enquiry within one working day.
+            Thanks — we&apos;ve received your details and will reply to your
+            email within one working day.
           </p>
           <button
             onClick={() => {
@@ -145,7 +161,9 @@ export function ContactForm() {
       >
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm text-gray-300 mb-2">Full Name</label>
+            <label className="block text-sm text-gray-300 mb-2">
+              Full Name <span className="text-purple-300">*</span>
+            </label>
             <input
               name="name"
               required
@@ -156,9 +174,12 @@ export function ContactForm() {
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-300 mb-2">Business Name</label>
+            <label className="block text-sm text-gray-300 mb-2">
+              Business Name <span className="text-purple-300">*</span>
+            </label>
             <input
               name="business"
+              required
               onFocus={handleFocus}
               onBlur={handleBlur}
               className={inputClass}
@@ -168,7 +189,9 @@ export function ContactForm() {
         </div>
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm text-gray-300 mb-2">Email</label>
+            <label className="block text-sm text-gray-300 mb-2">
+              Email <span className="text-purple-300">*</span>
+            </label>
             <input
               name="email"
               type="email"
@@ -180,7 +203,9 @@ export function ContactForm() {
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-300 mb-2">Phone / WhatsApp</label>
+            <label className="block text-sm text-gray-300 mb-2">
+              Phone / WhatsApp <span className="text-purple-300">*</span>
+            </label>
             <input
               name="phone"
               required
@@ -193,9 +218,12 @@ export function ContactForm() {
         </div>
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm text-gray-300 mb-2">Service of Interest</label>
+            <label className="block text-sm text-gray-300 mb-2">
+              Service of Interest <span className="text-purple-300">*</span>
+            </label>
             <select
               name="service"
+              required
               onFocus={handleFocus}
               onBlur={handleBlur}
               className={inputClass}
@@ -209,9 +237,12 @@ export function ContactForm() {
             </select>
           </div>
           <div>
-            <label className="block text-sm text-gray-300 mb-2">How did you hear about us?</label>
+            <label className="block text-sm text-gray-300 mb-2">
+              How did you hear about us? <span className="text-purple-300">*</span>
+            </label>
             <input
               name="source"
+              required
               onFocus={handleFocus}
               onBlur={handleBlur}
               className={inputClass}
@@ -220,7 +251,9 @@ export function ContactForm() {
           </div>
         </div>
         <div>
-          <label className="block text-sm text-gray-300 mb-2">Project Description</label>
+          <label className="block text-sm text-gray-300 mb-2">
+            Project Description <span className="text-purple-300">*</span>
+          </label>
           <textarea
             name="description"
             rows={5}
@@ -232,17 +265,16 @@ export function ContactForm() {
           />
         </div>
         <div className="pt-2">
-          <button
-            type="submit"
-            disabled={loading}
-            className="inline-flex items-center gap-2 rounded-lg bg-white text-black px-6 py-3 font-semibold hover:bg-gray-200 disabled:opacity-60 transition-colors"
-          >
-            {loading ? "Preparing..." : "Send Enquiry"}
-            <ArrowRight className="h-4 w-4" />
-          </button>
-          <p className="text-xs text-gray-500 mt-3">
-            Submitting this form opens your email app with the enquiry pre-filled.
-          </p>
+          <StarButton type="submit" disabled={loading}>
+            {loading ? "Sending..." : "Send Enquiry"}
+          </StarButton>
+          {error ? (
+            <p className="text-xs text-red-300 mt-3">{error}</p>
+          ) : (
+            <p className="text-xs text-gray-500 mt-3">
+              We&apos;ll reply to the email you provide within one working day.
+            </p>
+          )}
         </div>
       </form>
     </>

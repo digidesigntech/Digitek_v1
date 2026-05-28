@@ -195,13 +195,13 @@ export function CardStack<T extends CardStackItem>({
 
   return (
     <div
-      className={cn("w-full", className)}
+      className={cn("w-full overflow-hidden", className)}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
       {/* Stage */}
       <div
-        className="relative w-full"
+        className="relative w-full overflow-hidden"
         style={{ height: Math.max(380, cardHeight + 80) }}
         tabIndex={0}
         onKeyDown={onKeyDown}

@@ -4,9 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
+import { StarLink } from "@/components/ui/star-button";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -24,6 +25,8 @@ export function Navbar() {
     setOpen(false);
   }, [pathname]);
 
+  const isDigiPortfolio = pathname.startsWith("/digi-design-portfolio");
+
   return (
     <header
       className={cn(
@@ -35,17 +38,28 @@ export function Navbar() {
     >
       <nav className="container flex items-center justify-between py-4">
         <Link
-          href="/"
-          aria-label="Baptist Digitek — Home"
+          href={isDigiPortfolio ? "/digi-design-portfolio" : "/"}
+          aria-label={
+            isDigiPortfolio ? "Digi Designs — Home" : "Baptist Digitek — Home"
+          }
           className="flex items-center group"
         >
           <Image
-            src="/logo.png"
-            alt="Baptist Digitek (P) Ltd."
+            src={
+              isDigiPortfolio
+                ? "/digi-design-portfolio/logo_gold.png"
+                : "/logo.png"
+            }
+            alt={isDigiPortfolio ? "Digi Designs" : "Baptist Digitek (P) Ltd."}
             width={520}
             height={240}
             priority
-            className="h-9 md:h-10 w-auto select-none"
+            className={cn(
+              "w-auto select-none",
+              isDigiPortfolio
+                ? "h-16 md:h-20 drop-shadow-[0_0_18px_rgba(255,212,121,0.35)]"
+                : "h-12 md:h-14"
+            )}
           />
         </Link>
 
@@ -54,8 +68,65 @@ export function Navbar() {
             const isActive =
               item.href === "/"
                 ? pathname === "/"
-                : pathname.startsWith(item.href);
+                : pathname === item.href ||
+                  pathname.startsWith(item.href + "/");
             const isExternal = item.href.startsWith("http");
+            const children = "children" in item ? item.children : undefined;
+
+            if (children) {
+              return (
+                <li key={item.href} className="relative group">
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "inline-flex items-center gap-1 px-4 py-2 text-sm transition-colors rounded-md",
+                      isActive
+                        ? "text-white bg-white/5"
+                        : "text-gray-300 hover:text-white"
+                    )}
+                  >
+                    {item.label}
+                    <ChevronDown className="h-3.5 w-3.5 opacity-70 transition-transform duration-200 group-hover:rotate-180" />
+                  </Link>
+                  <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
+                    <ul className="min-w-[220px] rounded-lg bg-zinc-950/95 backdrop-blur-xl border border-white/15 py-2 shadow-2xl shadow-black/60 ring-1 ring-white/5">
+                      {children.map((c, i) => {
+                        if ("section" in c) {
+                          return (
+                            <li
+                              key={`section-${c.section}-${i}`}
+                              className={cn(
+                                "px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-purple-300",
+                                i > 0 && "pt-3 mt-1 border-t border-white/5"
+                              )}
+                            >
+                              {c.section}
+                            </li>
+                          );
+                        }
+                        const childActive = pathname.startsWith(c.href);
+                        return (
+                          <li key={c.href}>
+                            <Link
+                              href={c.href}
+                              className={cn(
+                                "block px-4 py-2 text-sm transition-colors",
+                                childActive
+                                  ? "text-white"
+                                  : "text-gray-300 hover:text-white hover:bg-white/[0.06]"
+                              )}
+                            >
+                              {c.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </li>
+              );
+            }
+
             return (
               <li key={item.href}>
                 {isExternal ? (
@@ -86,12 +157,7 @@ export function Navbar() {
         </ul>
 
         <div className="hidden lg:block">
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-lg bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-gray-200 transition-colors"
-          >
-            Start a Project
-          </Link>
+          <StarLink href="/contact">Start a Project</StarLink>
         </div>
 
         <button
@@ -104,25 +170,50 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="lg:hidden border-t border-white/10 bg-black/90 backdrop-blur-xl">
+        <div className="lg:hidden border-t border-white/10 bg-black/90 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain">
           <ul className="container py-4 flex flex-col gap-1">
-            {siteConfig.nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block px-3 py-3 rounded-md text-gray-200 hover:bg-white/5"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            <li className="pt-2">
-              <Link
-                href="/contact"
-                className="block text-center rounded-lg bg-white text-black px-4 py-3 text-sm font-semibold"
-              >
-                Start a Project
-              </Link>
+            {siteConfig.nav.map((item) => {
+              const children =
+                "children" in item ? item.children : undefined;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="block px-3 py-3 rounded-md text-gray-200 hover:bg-white/5"
+                  >
+                    {item.label}
+                  </Link>
+                  {children && (
+                    <ul className="ml-3 pl-3 border-l border-white/10">
+                      {children.map((c, i) => {
+                        if ("section" in c) {
+                          return (
+                            <li
+                              key={`m-section-${c.section}-${i}`}
+                              className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-purple-300"
+                            >
+                              {c.section}
+                            </li>
+                          );
+                        }
+                        return (
+                          <li key={c.href}>
+                            <Link
+                              href={c.href}
+                              className="block px-3 py-2.5 rounded-md text-sm text-gray-300 hover:bg-white/5"
+                            >
+                              {c.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+            <li className="pt-2 flex justify-center">
+              <StarLink href="/contact">Start a Project</StarLink>
             </li>
           </ul>
         </div>

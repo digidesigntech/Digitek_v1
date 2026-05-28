@@ -13,3 +13,8 @@ next-env.d.ts.bak
 # Large media — host externally (Cloudinary, S3, etc.)
 *.mp4
 *.mov
+
+# Local tooling / scratch
+.claude/
+response.html
+C*UsersSathya*Temp*.html

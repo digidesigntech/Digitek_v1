@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Zap } from "lucide-react";
 import ParticleField from "@/components/ui/particle-field";
@@ -8,6 +9,13 @@ type PageHeroProps = {
   badge?: string;
   title: string;
   subtitle?: string;
+  footer?: ReactNode;
+  /**
+   * Optional custom background. When provided, replaces the default
+   * ParticleField. The gradient fade-to-black overlay is preserved
+   * on top so the section still blends into the page below.
+   */
+  background?: ReactNode;
 };
 
 const fadeUp: Variants = {
@@ -19,10 +27,16 @@ const fadeUp: Variants = {
   }),
 };
 
-export function PageHero({ badge, title, subtitle }: PageHeroProps) {
+export function PageHero({
+  badge,
+  title,
+  subtitle,
+  footer,
+  background,
+}: PageHeroProps) {
   return (
-    <section className="relative min-h-[70vh] w-full flex items-center justify-center overflow-hidden pt-24 pb-16">
-      <ParticleField className="absolute inset-0" />
+    <section className="relative min-h-[min(70vh,720px)] w-full flex items-center justify-center overflow-hidden pt-24 pb-16">
+      {background ?? <ParticleField className="absolute inset-0" />}
       <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/30 to-black pointer-events-none" />
 
       <div className="container relative z-10 text-center max-w-4xl">
@@ -57,6 +71,17 @@ export function PageHero({ badge, title, subtitle }: PageHeroProps) {
           >
             {subtitle}
           </motion.p>
+        )}
+        {footer && (
+          <motion.div
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-8"
+          >
+            {footer}
+          </motion.div>
         )}
       </div>
     </section>

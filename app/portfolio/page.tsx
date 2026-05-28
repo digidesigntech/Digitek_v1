@@ -142,7 +142,7 @@ export default function PortfolioPage() {
       <Section
         eyebrow="Featured Properties"
         title="Every property, in motion"
-        description="Drag the front card, click any peek, or use ← / → keys. Tap the Visit button on the active card to open the live site."
+        description="Drag the front card or use ← / → keys to move through the stack."
       >
         <div className="flex justify-center">
           <HotelCardStack items={FEATURED} />
@@ -154,12 +154,12 @@ export default function PortfolioPage() {
         title="Every hospitality property we power"
         description="Each delivered with optimised image pipelines, mobile-first design, integrated enquiry flow and SEO tuned for 'near me' searches."
       >
-        <div className="glass rounded-3xl border border-white/10 p-2 overflow-hidden">
+        <div className="spin-border rounded-3xl p-2">
           <ImageCursorTrail
             items={MARQUEE_IMAGES}
             maxNumberOfImages={6}
             distance={28}
-            imgClass="sm:w-44 w-32 sm:h-56 h-44"
+            imgClass="sm:w-64 w-44 sm:h-64 h-44"
             className="rounded-[20px] bg-gradient-to-br from-purple-500/5 via-black to-black"
           >
             <div className="relative z-[60] text-center px-6 pointer-events-none">
@@ -168,9 +168,6 @@ export default function PortfolioPage() {
               </p>
               <p className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text leading-tight">
                 Move your cursor across
-              </p>
-              <p className="text-sm text-gray-500 mt-4">
-                Peek inside each property →
               </p>
             </div>
           </ImageCursorTrail>
@@ -184,20 +181,23 @@ export default function PortfolioPage() {
             return (
               <div
                 key={c.title}
-                className="glass glass-hover rounded-2xl p-7"
+                className="galaxy-btn p-7 h-full w-full text-left"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-11 w-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center flex-shrink-0">
-                    <Icon className="h-5 w-5 text-purple-300" />
+                <div className="galaxy-btn__stars"></div>
+                <div className="galaxy-btn__content h-full">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-11 w-11 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center flex-shrink-0">
+                      <Icon className="h-5 w-5 text-purple-300 galaxy-btn__icon" />
+                    </div>
+                    <h3 className="text-lg md:text-xl font-semibold text-white m-0">
+                      {c.title}
+                    </h3>
                   </div>
-                  <h3 className="text-lg md:text-xl font-semibold text-white">
-                    {c.title}
-                  </h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">
+                    {c.description}
+                  </p>
                 </div>
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  {c.description}
-                </p>
               </div>
             );
           })}
