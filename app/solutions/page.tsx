@@ -34,7 +34,9 @@ export default function SolutionsPage() {
             Pick the package that matches your industry — we&apos;ll customise the
             details so it feels purpose-built.
           </p>
-          <StarLink href="/contact">Request a Solution Brief</StarLink>
+          <StarLink href="/contact" className="!w-auto px-8 whitespace-nowrap">
+            Request a Solution Brief
+          </StarLink>
         </div>
       </Section>
     </>

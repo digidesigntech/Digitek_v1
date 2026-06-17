@@ -26,14 +26,7 @@ export const siteConfig = {
   nav: [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
-    {
-      href: "/services",
-      label: "Services",
-      children: [
-        { section: "Training" },
-        { href: "/training/corporate", label: "Corporate Training" },
-      ],
-    },
+    { href: "/services", label: "Services" },
     { href: "/solutions", label: "Solutions" },
     { href: "/portfolio", label: "Portfolio" },
     {

@@ -58,7 +58,7 @@ export function Navbar() {
               "w-auto select-none",
               isDigiPortfolio
                 ? "h-16 md:h-20 drop-shadow-[0_0_18px_rgba(255,212,121,0.35)]"
-                : "h-12 md:h-14"
+                : "h-12 md:h-14 [filter:drop-shadow(0_0_8px_rgba(143,81,234,0.65))_drop-shadow(0_0_20px_rgba(254,83,187,0.45))] transition-[filter] duration-300 group-hover:[filter:drop-shadow(0_0_12px_rgba(143,81,234,0.9))_drop-shadow(0_0_28px_rgba(254,83,187,0.7))]"
             )}
           />
         </Link>

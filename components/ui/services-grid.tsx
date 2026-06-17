@@ -578,7 +578,10 @@ function FeaturedHostingCard({ index }: { index: number }) {
               98404 99535 · 78458 34708
             </span>
           </div>
-          <StarLink href="/contact" className="self-start sm:self-auto">
+          <StarLink
+            href="/contact"
+            className="self-start sm:self-auto !w-auto px-8"
+          >
             Talk to hosting team
           </StarLink>
         </div>

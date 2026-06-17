@@ -68,7 +68,7 @@ export default function AboutPage() {
 
             <div className="space-y-5 text-gray-300 text-base md:text-lg leading-relaxed">
               <p>
-                I lead the intersection of{" "}
+                Angelin leads the intersection of{" "}
                 <span className="text-white font-semibold">
                   technology, creativity, and business innovation
                 </span>{" "}
@@ -77,7 +77,7 @@ export default function AboutPage() {
                 behind them.
               </p>
               <p>
-                My belief is simple: great digital work isn&rsquo;t
+                Her belief is simple: great digital work isn&rsquo;t
                 manufactured, it&rsquo;s designed with intent. Every pixel,
                 every interaction, every line of code should earn its place —
                 strengthening the brand, building influence, and compounding
@@ -85,7 +85,7 @@ export default function AboutPage() {
               </p>
               <p>
                 From websites and branding to graphic creatives and full
-                digital experiences, I approach each project with{" "}
+                digital experiences, she approaches each project with{" "}
                 <span className="text-white font-semibold">
                   purpose, precision, and the ambition to create lasting value
                 </span>
@@ -94,7 +94,7 @@ export default function AboutPage() {
               </p>
 
               <blockquote className="text-gray-300 italic border-l-2 border-purple-500/50 pl-5 mt-6">
-                My vision is to build a company known for innovation, quality,
+                Her vision is to build a company known for innovation, quality,
                 and meaningful impact — helping businesses not just establish
                 their presence, but elevate the way they connect with the
                 world.
